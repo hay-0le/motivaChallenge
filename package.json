@@ -1,0 +1,19 @@
+{
+  "name": "motivachallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "problem1.js",
+  "scripts": {
+    "test1": "mocha ./tests/problem1.test.js",
+    "test2": "mocha ./tests/problem2.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.1"
+  },
+  "dependencies": {
+    "case-anything": "^1.0.0"
+  }
+}
