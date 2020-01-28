@@ -12,10 +12,53 @@
 const { camelCase, kebabCase} = require('case-anything');
 
 let traverser = (converterFunction, obj, firstRun = true) => {
+
+   //Check that inputs are a function and an object (not an array) on the first run ---> leaving firstRun argument off defaults to true which will run check
+    
+
+    //helper function to change case type of key with converterFunction, then updates the obj with newKey
+
+        //set newKey in obj equal to values at old key
+       
+        //delete old key
+       
+        //return new key
+
+    //-- Checks to handle different data types --
+    //if obj is an array
+    
+        //create empty results array to add all converted values to
+        
+        //loop through elements in the array
+        
+            //add the element (converted) to the array, using traverser recursively to handle nested data
+        
+        //update obj to converted array
+        
+    //if obj is an object
    
+        //create cache for checked keys to keep from infinite loop since keys are being updated
+       
+        //loop through each key
+      
+            //use cache to see if key has been converted already
+         
+                //use helper function to convert case type of the key (also updates it in the obj)
+                
+                //get converted value, using traverser recursively to handle nested data (set firstRun to false to avoid incorrect checks of values)
+              
+                //update object with converted key/value pair
+              
+                //add newKey to checkedKeys cache
+        
+    //obj isn't array, object, or function so it will be primitive data type
+  
+        //convert it to different case
+
+
+    //return converted obj;
     return obj;
 }
-
 
 module.exports = {
     traverser: traverser
