@@ -1,17 +1,19 @@
 const expect = require('chai').expect;
 const { createIntervals } = require('../problem1.js');
 
-let arraysMatch = function (arr1, arr2) {
-	if (arr1.length !== arr2.length) return false;
+//check for deep equality of nested arrays
+let arraysMatch = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
 
-	for (let i = 0; i < arr1.length; i++) {
-		if (arr1[i][0] !== arr2[i][0]) return false;
-		if (arr1[i][1] !== arr2[i][1]) return false;
-	}
-
-	return true;
-};
-
+    for (var i = 0; i < arr1.length; i++) {
+        if (Array.isArray(arr1[i])) {
+            deepEquals = arraysMatch(arr1[i], arr2[i])
+        } else if (arr1[i] !== arr2[i]) {
+            return;
+        }
+    }
+    return true;
+}
 
 
 describe('Tests for correct data types:', () => {
@@ -70,8 +72,7 @@ describe('Tests for correct outputs:', () => {
             [ '2020-2-3', '2020-2-10' ],
             [ '2020-2-10', '2020-2-14' ]
           ]
-console.log(result)
-console.log(expectedResult)
+
         expect(arraysMatch(result, expectedResult)).to.equal(true);
     })
 
@@ -82,15 +83,4 @@ console.log(expectedResult)
         expect(arraysMatch(result, expectedResult)).to.equal(true);
     })
 
-
-
-    // it('Both dates are correctly formatted', () => {
-    //     let result = createIntervals('19-12-14 06:14:56', '2020-02-14 06:14:56', 90)
-    //     expect(result).to.equal('Start and end are not in correct "YYYY-MM-DD hh:mm:ss" format');
-    // })
-
-    // it('Returns error when inputs are incorrect data types', () => {
-    //     let result = createIntervals('19-12-14 06:14:56', '2020-02-14 06:14:56', '90')
-    //     expect(result).to.equal('Invalid input types: The first two arguments should be strings, while the second should be a number.');
-    // })
 })
