@@ -5,11 +5,13 @@ let arraysMatch = function (arr1, arr2) {
 	if (arr1.length !== arr2.length) return false;
 
 	for (let i = 0; i < arr1.length; i++) {
-		if (arr1[i] !== arr2[i]) return false;
+		if (arr1[i][0] !== arr2[i][0]) return false;
+		if (arr1[i][1] !== arr2[i][1]) return false;
 	}
 
 	return true;
 };
+
 
 
 describe('Tests for correct data types:', () => {
@@ -29,21 +31,25 @@ describe('Tests for correct input:', () => {
 
     it('Start date must be earlier than end date', () => {
         let result = createIntervals('2022-12-14 06:14:56', '2020-02-14 06:14:56', 7);
+
         expect(result).to.equal('Invalid input dates. Start dates must occur before end date');
     })
 
-    it('Should return one tuple if periodOfDays is more than different between start and end', () => {
+    it('Should return one tuple in an array, if periodOfDays is more than different between start and end', () => {
         let result = createIntervals('2019-12-14 06:14:56', '2020-02-14 06:14:56', 90)
-        expect(arraysMatch(result, [ '2019-12-14', '2020-2-14' ])).to.equal(true);
+        
+        expect(arraysMatch(result, [ [ '2019-12-14', '2020-2-14' ] ])).to.equal(true);
     })
 
     it('Both dates are correctly formatted', () => {
         let result = createIntervals('19-12-14 06:14:56', '2020-02-14 06:14:56', 90)
+
         expect(result).to.equal('Start and end are not in correct "YYYY-MM-DD hh:mm:ss" format');
     })
 
     it('Returns error when inputs are incorrect data types', () => {
         let result = createIntervals('19-12-14 06:14:56', '2020-02-14 06:14:56', '90')
+
         expect(result).to.equal('Invalid input types: The first two arguments should be strings, while the second should be a number.');
     })
 })
@@ -64,7 +70,8 @@ describe('Tests for correct outputs:', () => {
             [ '2020-2-3', '2020-2-10' ],
             [ '2020-2-10', '2020-2-14' ]
           ]
-
+console.log(result)
+console.log(expectedResult)
         expect(arraysMatch(result, expectedResult)).to.equal(true);
     })
 
