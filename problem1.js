@@ -7,7 +7,7 @@
         //invalid formats
 
 
-let createIntervals = (start, end, periodInDays = 3) => {
+let createDateIntervals = (start, end, periodInDays = 3) => {
     //Check all inputs are correct data types else return 'Invalid input types'
     if (!(typeof start === 'string' && typeof end === 'string' && typeof periodInDays === 'number')) {
         return 'Invalid input types: The first two arguments should be strings, while the second should be a number.'
@@ -92,24 +92,21 @@ let createIntervals = (start, end, periodInDays = 3) => {
     //create empty results array named intervals
     let intervals = [];
 
-    //main recursive function called setInterval takes in ---> testFunction, repeatedActionFunction
-    let setInterval = (testFunction, repeatedActionFunction) => {
+    //main recursive function called repeater takes in ---> testFunction, repeatedActionFunction
+    let repeater = (testFunction, repeatedActionFunction) => {
         // if test doesn't fail call repeatedActionFunction
         let result = testFunction();
      
         if (result) {
             repeatedActionFunction();
-            setInterval(testFunction, repeatedActionFunction);
+            repeater(testFunction, repeatedActionFunction);
         } else {
             return;
         }
 
     }
 
-    let tempStart = reformat(dates.start);
-    //invoke setInterval with dateChecker as test function, 
-    //and annonymous function  -->
-    setInterval(dateIncrementer, () => {
+    let createInterval = () => {
         //create variable intervalStart set to start
         let startInterval = tempStart;
         //create variable intervalEnd set to dateIncremeter(start)
@@ -119,8 +116,14 @@ let createIntervals = (start, end, periodInDays = 3) => {
         intervals.push([startInterval, endInterval]);
         //start date now equal to incrementedDate? Complete this in helper function
         tempStart = endInterval;
-        
-    })
+    }
+
+    //variable to hold previous start date 
+    let tempStart = reformat(dates.start);
+
+    //invoke repeater with dateChecker as test function, 
+    //and annonymous function to create interval -->
+    repeater(dateIncrementer, createInterval);
 
     // if start does not equal end date, add final (partial) interval
     if (tempStart !== reformat(dates.end)) {
@@ -132,5 +135,5 @@ let createIntervals = (start, end, periodInDays = 3) => {
 }
 
 module.exports = {
-    createIntervals: createIntervals
+    createDateIntervals: createDateIntervals
 };
