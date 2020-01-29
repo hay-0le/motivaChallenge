@@ -8,12 +8,12 @@
 
 
 let createIntervals = (start, end, periodInDays = 3) => {
-    //Check all inputs are correct data types else return "Invalid input types"
+    //Check all inputs are correct data types else return 'Invalid input types'
     if (!(typeof start === 'string' && typeof end === 'string' && typeof periodInDays === 'number')) {
-        return 'Invalid input types: \nThe first two arguments should be strings, while the second should be a number.'
+        return 'Invalid input types: The first two arguments should be strings, while the second should be a number.'
     }
 
-    //Check all inputs are correct format else return "Invalid date-time formats" --> Use RegEx
+    //Check all inputs are correct format else return 'Invalid date-time formats' --> Use RegEx
     let pattern = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]/;
     if (!(pattern.test(start) && pattern.test(end))) {
         return 'Start and end are not in correct "YYYY-MM-DD hh:mm:ss" format';
@@ -34,10 +34,10 @@ let createIntervals = (start, end, periodInDays = 3) => {
     }
   
 
-    //Check endDateTime comes after startDateTime else return "Invalid input dates"
+    //Check endDateTime comes after startDateTime else return 'Invalid input dates'
     let startNum = (dates.start.year * 365) + (dates.start.month * 30) + dates.start.day;
     let endNum = (dates.end.year * 365) + (dates.end.month * 30) + dates.end.day;
-    if (startNum > endNum) return "Invalid input dates. Start dates must occur before end date"
+    if (startNum > endNum) return 'Invalid input dates. Start dates must occur before end date'
 
     //helper to reformat dates
     let reformat = (dateObj) => {
@@ -47,7 +47,7 @@ let createIntervals = (start, end, periodInDays = 3) => {
     //Check if periodInDays is bigger than gap between startDateTime and endDateTime
     if (endNum - startNum < periodInDays) {
         //return one tuple with start and end dates in an array (in proper format)
-        return [reformat(dates.start), reformat(dates.end)];
+        return [ [reformat(dates.start), reformat(dates.end)] ];
     }
 
     
@@ -55,9 +55,9 @@ let createIntervals = (start, end, periodInDays = 3) => {
     let dateIncrementer = () => {
         let i = 0;
 
-        while (i <= periodInDays) {
-            //return false if start surpasses end
-            if (startNum > endNum) {
+        while (i < periodInDays) {
+            //return false if start will surpase end with this current interval
+            if (startNum + periodInDays > endNum) {
                 return false;
             }
 
@@ -90,17 +90,18 @@ let createIntervals = (start, end, periodInDays = 3) => {
     }
         
     //create empty results array named intervals
-    let intervals = ["test"];
+    let intervals = [];
 
     //main recursive function called setInterval takes in ---> testFunction, repeatedActionFunction
     let setInterval = (testFunction, repeatedActionFunction) => {
         // if test doesn't fail call repeatedActionFunction
-        console.log("in setInterval")
         let result = testFunction();
-       
+     
         if (result) {
             repeatedActionFunction();
             setInterval(testFunction, repeatedActionFunction);
+        } else {
+            return;
         }
 
     }
@@ -118,9 +119,13 @@ let createIntervals = (start, end, periodInDays = 3) => {
         intervals.push([startInterval, endInterval]);
         //start date now equal to incrementedDate? Complete this in helper function
         tempStart = endInterval;
+        
     })
 
-    //add final interval to results array 
+    // if start does not equal end date, add final (partial) interval
+    if (tempStart !== reformat(dates.end)) {
+        intervals.push([tempStart, reformat(dates.end)])
+    }
 
     //return results array 
     return intervals;
@@ -129,7 +134,3 @@ let createIntervals = (start, end, periodInDays = 3) => {
 module.exports = {
     createIntervals: createIntervals
 };
-
-// console.log(createIntervals("2019-12-14 06:14:56", "2020-02-14 06:14:56", 7))
-// console.log(createIntervals("2019-12-14 06:14:56", "2020-02-14 06:14:56", 90)) //[ '2019-12-14', '2020-2-14' ]
-// console.log(createIntervals("2019-12-14 06:14:56", "2020-02-14 06:14:56", 7))
