@@ -1,13 +1,13 @@
 # MotivaChallenge
-# Notes
+## Notes
 Use case-anything dependancy to replicate functions from https://github.com/clj-commons/camel-snake-kebab library
 
-# installation
+## Installation
 ```sh
 npm install
 ```
 
-# test files
+## Test files
 To test the first prompt:
 ```sh
 npm run test1
