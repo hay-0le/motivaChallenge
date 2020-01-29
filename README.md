@@ -1,4 +1,6 @@
-# motivaChallenge
+# MotivaChallenge
+# Notes
+Use case-anything dependancy to replicate functions from https://github.com/clj-commons/camel-snake-kebab library
 
 # installation
 ```sh
